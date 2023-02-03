@@ -31,12 +31,15 @@ exports.createSauce = (req, res, next) => {
 
 // Modifier une sauce
 exports.modifySauce = (req, res, next) => {
-	const sauceObject = req.file
-		? {
-				...JSON.parse(req.body.sauce),
-				imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
-		  }
-		: { ...req.body };
+	// test si l'image est fourni ou pas
+	if (req.file != undefined) {
+		const sauceObject = {
+			...JSON.parse(req.body.sauce),
+			imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+		};
+	} else {
+		const sauceObject = { ...req.body };
+	}
 	Sauce.updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id })
 		.then(() => res.status(200).json({ message: 'Sauce modifiée !' }))
 		.catch((error) => res.status(400).json({ error }));
