@@ -33,13 +33,14 @@ exports.createSauce = (req, res, next) => {
 // Modifier une sauce
 exports.modifySauce = (req, res, next) => {
 	// test si l'image est fourni ou pas
+	let sauceObject = {};
 	if (req.file != undefined) {
-		const sauceObject = {
+		sauceObject = {
 			...JSON.parse(req.body.sauce),
 			imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
 		};
 	} else {
-		const sauceObject = { ...req.body };
+		sauceObject = { ...req.body };
 	}
 	Sauce.updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id })
 		.then(() => res.status(200).json({ message: 'Sauce modifiée !' }))
