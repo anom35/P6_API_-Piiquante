@@ -66,8 +66,9 @@ exports.deleteSauce = (req, res, next) => {
 };
 
 exports.likeOrNotLike = (req, res, next) => {
+	console.log(req.body.like, ' - ', typeof req.body.like);
 	switch (req.body.like) {
-		case '1': {
+		case 1: {
 			// met un Like
 			Sauce.updateOne(
 				{
@@ -83,14 +84,14 @@ exports.likeOrNotLike = (req, res, next) => {
 			break;
 		}
 
-		case '-1': {
+		case -1: {
 			// met un Dislike
 			Sauce.updateOne(
 				{
 					_id: req.params.id,
 				},
 				{
-					$inc: { dislikes: req.body.like-- },
+					$dec: { dislikes: req.body.like++ * -1 },
 					$push: { usersDisliked: req.body.userId },
 				}
 			)
