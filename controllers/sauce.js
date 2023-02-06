@@ -32,7 +32,11 @@ exports.createSauce = (req, res, next) => {
 
 // Modifier une sauce
 exports.modifySauce = (req, res, next) => {
-	// test si l'image est fourni ou pas
+	// cherche l'image de l'article et la supprime du dossier /images/ avant la modification
+	Sauce.findOne({ _id: req.params.id }).then((sauce) => {
+		const oldImage = sauce.imageUrl.split('/')[4];
+		fs.unlink(`images/${oldImage}`, () => {});
+	});
 	let sauceObject = {};
 	if (req.file != undefined) {
 		sauceObject = {
