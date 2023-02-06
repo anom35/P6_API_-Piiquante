@@ -1,5 +1,5 @@
 const express = require('express');
-const bodyParser = require('body-parser');
+// const bodyParser = require('body-parser');
 
 // déclaration de mongoose
 const mongoose = require('mongoose');
@@ -31,7 +31,7 @@ app.use((req, res, next) => {
 	next();
 });
 
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
 
 // routes
 app.use('/api/sauces', sauceRoutes);

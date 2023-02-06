@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
+const mongodbErrorHandler = require('mongoose-mongodb-errors');
+mongoose.plugin(mongodbErrorHandler);
 
 // Schéma utilisateur
 const userSchema = mongoose.Schema({
@@ -9,5 +11,6 @@ const userSchema = mongoose.Schema({
 
 // interdit de créer plusieurs comptes avec la même adresse email.
 userSchema.plugin(uniqueValidator);
+// userSchema.plugin(mongodbErrorHandler);
 
 module.exports = mongoose.model('User', userSchema);
