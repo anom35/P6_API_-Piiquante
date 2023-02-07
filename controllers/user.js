@@ -5,17 +5,17 @@ const jwt = require('jsonwebtoken');
 // Créer un compte utilisateur
 exports.signup = (req, res, next) => {
 	bcrypt
-		.hash(req.body.password, 10)
+		.hash(req.body.password, 10) // crypte en faisant 10 passes
 		.then((hash) => {
+			// créer une instance du model User
 			const user = new User({
 				email: req.body.email,
 				password: hash,
 			});
-			user.save()
+			user.save() // créer un nouvel utilisateur
 				.then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
 				.catch((error) => {
-					console.log('erreur: ', error.statusCode);
-
+					console.log('erreur: ', error.statusCode); //! à supprimer
 					res.status(400).json({ error: 'Paire Identifiant/mot de passe incorrect !' });
 				});
 		})

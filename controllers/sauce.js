@@ -70,6 +70,7 @@ exports.deleteSauce = (req, res, next) => {
 		.catch((error) => res.status(500).json({ error }));
 };
 
+// gère les Likes et Dislikes des sauces
 exports.likeAndDislike = (req, res, next) => {
 	let likeString = req.body.like.toString();
 
