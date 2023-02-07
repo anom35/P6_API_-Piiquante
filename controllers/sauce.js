@@ -8,16 +8,16 @@ exports.getAllSauces = (req, res, next) => {
 		.catch((error) => res.status(400).json({ error: error }));
 };
 
-// Récuperer une seule sauce
+// Récuperer une seule sauce en testant l'authentification de l'utilisateur
 exports.getOneSauce = (req, res, next) => {
 	Sauce.findOne({ _id: req.params.id })
 		.then((sauce) => res.status(200).json(sauce))
 		.catch((error) => res.status(404).json({ error: error }));
 };
 
-// Créer une sauce
-exports.createSauce = (req, res, next) => {
-	const sauceObject = JSON.parse(req.body.sauce);
+// Créer une sauce avec l'UserID de l'utilisateur
+exports.createSauce = async (req, res, next) => {
+	const sauceObject = await JSON.parse(req.body.sauce);
 	delete sauceObject._id;
 	const sauce = new Sauce({
 		...sauceObject,
@@ -29,8 +29,9 @@ exports.createSauce = (req, res, next) => {
 		.catch((error) => res.status(400).json({ error }));
 };
 
-// Modifier une sauce
+// Modifier une sauce, uniquement autorisé par l'utilisateur qui l'a créée
 exports.modifySauce = (req, res, next) => {
+	// test si un fichier image est fourni, mais en réalité elle est devenue obligatoire pour pouvoir validé la création
 	let sauceObject = {};
 	if (req.file != undefined) {
 		sauceObject = {
@@ -79,7 +80,7 @@ exports.likeAndDislike = (req, res, next) => {
 			// met un Like
 			Sauce.updateOne(
 				{
-					_id: req.params.id, // Met à jour l'ID de l'article
+					_id: req.params.id, // enregistre l'ID de l'utilisateur
 				},
 				{
 					$inc: { likes: req.body.like++ }, // Incrémente le champs "nombre d'utilisateurs qui ont mis un like"

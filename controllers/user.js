@@ -44,6 +44,7 @@ exports.login = (req, res, next) => {
 					// utilisateur authentifié !
 					res.status(200).json({
 						userId: user._id,
+						// assigne un token aux utilisateurs authentifiés, cela les autorisent à utiliser les routes, CRUD, ...
 						token: jwt.sign({ userId: user._id }, process.env.TOKEN_KEY, { expiresIn: '24h' }),
 					});
 				})
