@@ -50,6 +50,7 @@ exports.modifySauce = (req, res, next) => {
 			fs.unlink(`images/${oldImage}`, () => {});
 		});
 	}
+	// met à jour les données (filtre, données)
 	Sauce.updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id })
 		.then(() => res.status(200).json({ message: 'Sauce modifiée !' }))
 		.catch((error) => res.status(400).json({ error }));
@@ -69,7 +70,7 @@ exports.deleteSauce = (req, res, next) => {
 		.catch((error) => res.status(500).json({ error }));
 };
 
-exports.likeOrNotLike = (req, res, next) => {
+exports.likeAndDislike = (req, res, next) => {
 	let likeString = req.body.like.toString();
 
 	switch (likeString) {
