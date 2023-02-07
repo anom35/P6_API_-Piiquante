@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 
-const sauceSchema = mongoose.Schema({
+const mongoose2 = require('mongoose');
+const mongodbErrorHandler = require('mongoose-mongodb-errors');
+const MongooseErrors = require('mongoose-errors');
+mongoose2.plugin(mongodbErrorHandler);
+
+const sauceSchema = mongoose2.Schema({
 	userId: { type: String, required: true },
 	name: { type: String, required: true },
 	manufacturer: { type: String, required: true },
@@ -14,4 +19,7 @@ const sauceSchema = mongoose.Schema({
 	usersDisliked: { type: [String] },
 });
 
-module.exports = mongoose.model('Sauce', sauceSchema);
+sauceSchema.plugin(MongooseErrors);
+sauceSchema.plugin(mongodbErrorHandler);
+
+module.exports = mongoose2.model('Sauce', sauceSchema);

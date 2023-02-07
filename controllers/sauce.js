@@ -31,11 +31,6 @@ exports.createSauce = (req, res, next) => {
 
 // Modifier une sauce
 exports.modifySauce = (req, res, next) => {
-	// cherche l'image de l'article et la supprime du dossier /images/ avant la modification
-	Sauce.findOne({ _id: req.params.id }).then((sauce) => {
-		const oldImage = sauce.imageUrl.split('/')[4];
-		fs.unlink(`images/${oldImage}`, () => {});
-	});
 	let sauceObject = {};
 	if (req.file != undefined) {
 		sauceObject = {
@@ -44,6 +39,16 @@ exports.modifySauce = (req, res, next) => {
 		};
 	} else {
 		sauceObject = { ...req.body };
+	}
+	const IsImageUrl = sauceObject.imageUrl;
+
+	// Si changement d'image, cherche l'image de l'article et la supprime du dossier /images
+	// Si IsImageUrl est inexistant, alors juste modification du texte, on continue.
+	if (IsImageUrl != undefined) {
+		Sauce.findOne({ _id: req.params.id }).then((sauce) => {
+			const oldImage = sauce.imageUrl.split('/')[4];
+			fs.unlink(`images/${oldImage}`, () => {});
+		});
 	}
 	Sauce.updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id })
 		.then(() => res.status(200).json({ message: 'Sauce modifiée !' }))
