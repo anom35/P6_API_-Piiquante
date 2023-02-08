@@ -5,6 +5,7 @@ const mongodbErrorHandler = require('mongoose-mongodb-errors');
 const MongooseErrors = require('mongoose-errors');
 mongoose2.plugin(mongodbErrorHandler);
 
+// schéma d'un objet sauce
 const sauceSchema = mongoose2.Schema({
 	userId: { type: String, required: true },
 	name: { type: String, required: true },
@@ -19,6 +20,7 @@ const sauceSchema = mongoose2.Schema({
 	usersDisliked: { type: [String] },
 });
 
+// étend la gestion des contrôle d'erreurs
 sauceSchema.plugin(MongooseErrors);
 sauceSchema.plugin(mongodbErrorHandler);
 

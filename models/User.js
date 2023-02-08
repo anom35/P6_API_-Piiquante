@@ -12,6 +12,8 @@ const userSchema = mongoose.Schema({
 
 // interdit de créer plusieurs comptes avec la même adresse email.
 userSchema.plugin(uniqueValidator);
+
+// étend la gestion des contrôle d'erreurs
 userSchema.plugin(MongooseErrors);
 userSchema.plugin(mongodbErrorHandler);
 
