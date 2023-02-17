@@ -15,7 +15,6 @@ exports.signup = (req, res, next) => {
 			user.save() // créer un nouvel utilisateur
 				.then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
 				.catch((error) => {
-					console.log('erreur: ', error.statusCode); //! à supprimer
 					res.status(400).json({ error: 'Paire Identifiant/mot de passe incorrect !' });
 				});
 		})

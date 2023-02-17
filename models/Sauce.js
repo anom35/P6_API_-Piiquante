@@ -1,5 +1,3 @@
-const mongoose = require('mongoose');
-
 const mongoose2 = require('mongoose');
 const mongodbErrorHandler = require('mongoose-mongodb-errors');
 const MongooseErrors = require('mongoose-errors');
