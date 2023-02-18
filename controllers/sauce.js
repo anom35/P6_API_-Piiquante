@@ -36,6 +36,8 @@ exports.createSauce = async (req, res, next) => {
 
 // Modifier une sauce, uniquement autorisé par l'utilisateur qui l'a créée
 exports.modifySauce = async (req, res, next) => {
+	// test si l'utilisateur qui veut modifier la sauce est le créateur
+	// ---------------------------------------------------
 	let idCreatorSauce = ""
 	let passwordCreator = ""
 	await Sauce.findOne({_id: req.params.id})
@@ -51,7 +53,8 @@ exports.modifySauce = async (req, res, next) => {
 	const userId = decodedToken.userId;
 	if (idCreatorSauce && idCreatorSauce !== userId) {
 		throw 'Vous n\'avez pas le droit de modification !';
-	} else {
+	// ---------------------------------------------------
+} else {
 		// test si un fichier image est fourni, mais en réalité elle est devenue obligatoire pour pouvoir validé la création
 		let sauceObject = {};
 		if (req.file != undefined) {
@@ -81,6 +84,8 @@ exports.modifySauce = async (req, res, next) => {
 
 // Supprimer une sauce
 exports.deleteSauce = async (req, res, next) => {
+	// test si l'utilisateur qui veut supprimer la sauce est le créateur
+	// ---------------------------------------------------
 	let idCreatorSauce = ""
 	let passwordCreator = ""
 	await Sauce.findOne({_id: req.params.id})
@@ -96,6 +101,7 @@ exports.deleteSauce = async (req, res, next) => {
 	const userId = decodedToken.userId;
 	if (idCreatorSauce && idCreatorSauce !== userId) {
 		throw 'Vous n\'avez pas le droit de suppression !';
+	// ------------------------------------------------------
 	} else {
 		console.log("Sauce supprimé !")
 		Sauce.findOne({ _id: req.params.id })
