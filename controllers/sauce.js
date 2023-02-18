@@ -80,11 +80,14 @@ exports.likeAndDislike = (req, res, next) => {
 			// met un Like
 			Sauce.updateOne(
 				{
-					_id: req.params.id, // enregistre l'ID de l'utilisateur
+					// enregistre l'ID de l'utilisateur
+					_id: req.params.id, 
 				},
 				{
-					$inc: { likes: req.body.like++ }, // Incrémente le champs "nombre d'utilisateurs qui ont mis un like"
-					$push: { usersLiked: req.body.userId }, // Enregistre l'ID de l'utilisateur dans le table de ceux qui ont aimés
+					// Incrémente le champs "nombre d'utilisateurs qui ont mis un Like"
+					$inc: { likes: req.body.like++ }, 
+					// Enregistre l'ID de l'utilisateur dans le table de ceux qui ont aimés
+					$push: { usersLiked: req.body.userId }, 
 				}
 			)
 				.then((sauce) => res.status(200).json({ message: 'Like ajouté !' }))
@@ -96,10 +99,13 @@ exports.likeAndDislike = (req, res, next) => {
 			// met un Dislike
 			Sauce.updateOne(
 				{
+					// enregistre l'ID de l'utilisateur
 					_id: req.params.id,
 				},
 				{
+					// Incrémente le champs "nombre d'utilisateurs qui ont mis un Dislike"
 					$inc: { dislikes: req.body.like++ * -1 },
+					// Enregistre l'ID de l'utilisateur dans le table de ceux qui n'ont aimés
 					$push: { usersDisliked: req.body.userId },
 				}
 			)
@@ -116,10 +122,13 @@ exports.likeAndDislike = (req, res, next) => {
 					if (sauce.usersLiked.includes(req.body.userId)) {
 						Sauce.updateOne(
 							{
+								// enregistre l'ID de l'utilisateur
 								_id: req.params.id,
 							},
 							{
+								// enregistre l'ID de l'utilisateur dans le table de ceux qui ont aimés
 								$pull: { usersLiked: req.body.userId },
+								// supprime le Like
 								$inc: { likes: -1 },
 							}
 						)
@@ -128,14 +137,17 @@ exports.likeAndDislike = (req, res, next) => {
 							})
 							.catch((error) => res.status(400).json({ error }));
 					}
-					// test si le userId est dans le tableau des personnes qui ont kisliké la sauce
+					// test si le userId est dans le tableau des personnes qui ont Disliké la sauce
 					else if (sauce.usersDisliked.includes(req.body.userId)) {
 						Sauce.updateOne(
 							{
+								// enregistre l'ID de l'utilisateur
 								_id: req.params.id,
 							},
 							{
+								// enregistre l'ID de l'utilisateur dans le table de ceux qui n'ont aimés
 								$pull: { usersDisliked: req.body.userId },
+								// supprime le Dislike
 								$inc: { dislikes: -1 },
 							}
 						)

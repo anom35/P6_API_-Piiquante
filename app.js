@@ -1,3 +1,4 @@
+// importe express
 const express = require('express');
 
 // déclaration de mongoose
@@ -12,7 +13,7 @@ const userRoutes = require('./routes/user');
 const path = require('path');
 const varEnv = require('dotenv').config();
 
-// déclaration d'express
+// créer une application express
 const app = express();
 app.use(express.json());
 
