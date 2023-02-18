@@ -42,11 +42,11 @@ exports.modifySauce = async (req, res, next) => {
 	let passwordCreator = ""
 	await Sauce.findOne({_id: req.params.id})
 		.then(sauce => { idCreatorSauce = sauce.userId })
-		.catch(error => res.status(400).json({ error }))
+		.catch(error => res.status(403).json({ error }))
 	
 	await User.findOne({_id: idCreatorSauce})
 		.then(user => {	passwordCreator = user.password	})
-		.catch(error => res.status(400).json({ error }))
+		.catch(error => res.status(403).json({ error }))
 		
 	const token = req.headers.authorization.split(' ')[1];
 	const decodedToken = jwt.verify(token, `${process.env.TOKEN_KEY}`);
@@ -90,11 +90,11 @@ exports.deleteSauce = async (req, res, next) => {
 	let passwordCreator = ""
 	await Sauce.findOne({_id: req.params.id})
 		.then(sauce => { idCreatorSauce = sauce.userId })
-		.catch(error => res.status(400).json({ error }))
+		.catch(error => res.status(403).json({ error }))
 	
 	await User.findOne({_id: idCreatorSauce})
 		.then(user => {	passwordCreator = user.password })
-		.catch(error => res.status(400).json({ error }))
+		.catch(error => res.status(403).json({ error }))
 
 	const token = req.headers.authorization.split(' ')[1];
 	const decodedToken = jwt.verify(token, `${process.env.TOKEN_KEY}`);
